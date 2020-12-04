@@ -19,6 +19,7 @@ function Banner() {
         }
         fetchData();
     },[]);
+    
 
     function truncate(str,n){
         return str?.length > n ? str.substr(0, n-1) + "...": str;
@@ -32,16 +33,17 @@ function Banner() {
             // backgroundPosition: "0 top",
              backgroundAttachment: "fixed",
              backgroundRepeat: 'no-repeat',
-            // zIndex:'-2',
+             zIndex:'-200',
+            objectFit:'cover',
             backgroundSize: "100% 100%",
             backgroundPosition: "0 top",
             //backgroundRepeat: "repeat-x",
             backgroundColor: "transparent",
             width: "100%",
-            height: "43.5rem",
+            height: "49.5rem",
             top: "auto",
             bottom: "-1px",
-            opacity: "0.87",
+            opacity: "1",
         }}>
              <div className="banner__contents">
                 <h1 className="banner__title">

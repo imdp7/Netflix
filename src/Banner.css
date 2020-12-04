@@ -1,6 +1,6 @@
 .banner {
   color: #fff;
-  object-fit: contain;
+  object-fit: cover;
   height: 648px;
   
 }
@@ -50,8 +50,7 @@
 }
 
 .banner--fadebottom {
-  height: 17rem;
-  z-index: -99;
+  height: 34.6rem;
   background-image: linear-gradient(
     180deg,
     transparent,
