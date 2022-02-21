@@ -1,9 +1,14 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Row from './Row';
 import requests from './requests';
 import Banner from './Banner'
 
 function Main() {
+
+  useEffect(() => {
+    document.title = `Netflix | Watch Favourite Movie`;
+  },[],6000);
+
   return (
     <div>
       <Banner/>

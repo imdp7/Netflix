@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import hero from './assets/hero.jpeg'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -6,6 +6,11 @@ import { Link } from 'react-router-dom';
 
 
 function Home() {
+
+  useEffect(() => {
+    document.title = `Netflix | Watch Favourite Movie`;
+  },[],6000);
+
   return (
     <div>
   <div className="relative w-full h-full bg-black">
