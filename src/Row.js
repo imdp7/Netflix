@@ -3,6 +3,7 @@ import axios from './axios';
 import './row.css'
 import YouTube from 'react-youtube';
 import movieTrailer from 'movie-trailer'
+import{Link} from 'react-router-dom'
 
 const base_url="https://image.tmdb.org/t/p/original/" 
 
@@ -41,25 +42,27 @@ function Row({title ,fetchUrl ,isLargeRow}) {
             .catch((error) => console.log(error));
         }
       };
-
     return (
         <div className="row">
-        <h2 className="row__title">{title}</h2>
+        <span className="font-extrabold text-white m-2 p-3 text-2xl">{title}</span>
             <div className="row__inner">
-             
+              
                 {movies.map(movie => (
+                  <Link to={`/movie/${movie.id}`}>
                     <div className={"tile"} key={movie.id}>
                     <div className="tile__media">
                     <img className={`tile__img  ${isLargeRow && "row__posterLarge"}`} 
                     key={movie.id} 
                     src={`${base_url}${isLargeRow ? movie.poster_path: movie.backdrop_path}`} 
                     alt={movie.name}
-                    onClick={() => handleClick(movie)}
+                     onClick={() => handleClick(movie)}
                     />
                     
-                    </div>
-                    </div>
+
                     
+                    </div>
+                    </div>
+                    </Link>
                 ))}
 
         </div>

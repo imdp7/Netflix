@@ -1,30 +1,72 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import './App.css';
-import Row from './Row';
-import requests from './requests';
-import Banner from './Banner';
 import Nav from './Nav';
+import {BrowserRouter as Router,Switch,Route} from 'react-router-dom'
+import Main from './Main'
+import Login from './User/Login'
+import Home from './Home';
+import {UserProvider,UserContext} from './Providers/UserContext'
+import Register from './User/Register';
+import Routes from './Routes';
 
+function RouteWithSubRoutes(route) {
+  return (
+    <Route
+      path={route.path}
+      exact={true}
+      render={props => (
+        // pass the sub-routes down to keep nesting
+        <route.component {...props} routes={route.routes} />
+      )}
+    />
+  );
+}
+
+const routes = [
+  
+  {
+    path: "/home",
+    component: Main,
+    exact: true
+  },
+  {
+    path: "/",
+    component: Home,
+    exact: true
+  },
+  {
+    path: "/login",
+    component: Login,
+    exact: true
+  },
+  {
+    path: "/register",
+    component: Register,
+    exact: true
+  },
+];
 
 
 function App() {
+  const { user } = useContext(UserContext);
+  
   return (
+    <UserProvider>
+    <Router> 
     <div className="App">
       <Nav/>
-      <Banner/>
-     <Row title="Netflix Originals" 
-       fetchUrl={requests.fetchNetflixOriginals}
-       isLargeRow = {true}
-     />
-      <Row title="Trending Now" fetchUrl={requests.fetchTrending} />
-      <Row title="Top Rated" fetchUrl={requests.fetchTopRated} />
-      <Row title="Action Movies" fetchUrl={requests.fetchActionMovies} />
-      <Row title="Comedy Movies" fetchUrl={requests.fetchComedyMovies} />
-      <Row title="Horror Movies" fetchUrl={requests.fetchHorrorMovies} />
-      <Row title="Romance Movies" fetchUrl={requests.fetchRomanceMovies} />
-      <Row title="Documentaries" fetchUrl={requests.fetchDocumentaries} />
-     
+        {user ?
+      <div className="app__body">
+          <Switch>
+          {routes.map((route, i) => (
+            <RouteWithSubRoutes key={i} {...route} />
+            ))}
+      </Switch>
     </div>
+      : <Routes/> }
+    </div>
+    </Router> 
+    </UserProvider>
   );
 }
 
