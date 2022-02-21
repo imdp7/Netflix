@@ -1,22 +1,23 @@
 .nav {
   position: fixed;
   top: 0;
-  width: 100%;
+  display: flex;
   justify-content: space-between;
-  padding: 20px;
-  height: 25px;
+  height: 60px;
   z-index: 1;
+  width: 100%;
+  padding: 20px;
   transition-timing-function: ease-in;
   transition: all 0.5s;
 }
 
 .nav__black {
-  background-color: #111;
+  background-color: black;
 }
 
 .nav__logo {
   width: 120px;
-  margin: auto;
+  left: 30px;
   position: fixed;
   object-fit: contain;
 }
