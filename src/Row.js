@@ -28,34 +28,35 @@ function Row({title ,fetchUrl ,isLargeRow}) {
 
         },
     };
-    const handleClick = (movie) => {
-        console.table(movie);
-        if (trailerUrl) {
-          setTrailerUrl("");
-        } else {
-          movieTrailer(movie?.title || movie?.name || movie?.original_name || "")
-            .then((url) => {
-              const urlParams = new URLSearchParams(new URL(url).search);
-              console.log("urlParams = " + urlParams);
-              setTrailerUrl(urlParams.get("v"));
-            })
-            .catch((error) => console.log(error));
-        }
-      };
+    // const handleClick = (movie) => {
+    //     console.table(movie);
+    //     if (trailerUrl) {
+    //       setTrailerUrl("");
+    //     } else {
+    //       movieTrailer(movie?.title || movie?.name || movie?.original_name || "")
+    //         .then((url) => {
+    //           const urlParams = new URLSearchParams(new URL(url).search);
+    //           console.log("urlParams = " + urlParams);
+    //           setTrailerUrl(urlParams.get("v"));
+    //         })
+    //         .catch((error) => console.log(error));
+    //     }
+    //   };
+
     return (
         <div className="row">
         <span className="font-extrabold text-white m-2 p-3 text-2xl">{title}</span>
             <div className="row__inner">
               
                 {movies.map(movie => (
-                  <Link to={`/movie/${movie.id}`}>
+                  <Link to={{pathname:`/movie/${movie.id}`, state:{movie: movie}}} key={movie.id}>
                     <div className={"tile"} key={movie.id}>
                     <div className="tile__media">
                     <img className={`tile__img  ${isLargeRow && "row__posterLarge"}`} 
                     key={movie.id} 
                     src={`${base_url}${isLargeRow ? movie.poster_path: movie.backdrop_path}`} 
                     alt={movie.name}
-                     onClick={() => handleClick(movie)}
+                    //onClick={() => handleClick(movie)}
                     />
                     
 

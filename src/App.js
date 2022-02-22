@@ -45,11 +45,6 @@ const routes = [
     component: Register,
     exact: true
   },
-  {
-    path: "/movie/:id",
-    component: Movie,
-    exact: true
-  },
 ];
 
 
