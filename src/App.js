@@ -8,6 +8,7 @@ import Home from './Home';
 import {UserProvider,UserContext} from './Providers/UserContext'
 import Register from './User/Register';
 import Routes from './Routes';
+import Movie from './Movie';
 
 function RouteWithSubRoutes(route) {
   return (
@@ -42,6 +43,11 @@ const routes = [
   {
     path: "/register",
     component: Register,
+    exact: true
+  },
+  {
+    path: "/movie/:id",
+    component: Movie,
     exact: true
   },
 ];

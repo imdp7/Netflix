@@ -9,10 +9,9 @@ function Routes() {
   return (
     <div>
         <Route path="/" component={Home}  exact={true}/>
-        <Route path="/Home" component={Main}  exact={true}/>
+        <Route path="/home" component={Main}  exact={true}/>
         <Route path="/login" component={Login}  exact={true}/>
         <Route path="/register" component={Register} exact={true}/>
-        <Redirect from="*" to="/" />
     </div>
   )
 }
