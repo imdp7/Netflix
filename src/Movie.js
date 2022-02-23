@@ -45,9 +45,10 @@ function Movie({match}) {
             const request = await axios.get(`https://api.themoviedb.org/3/movie/${match.params.id}/credits?api_key=${API_KEY}&language=en-US`);
             setCredits(request.data.cast);
             return request;
-        }
-        fetchData();
-    },[match.params.id,API_KEY]);
+          }
+          fetchData();
+        },[match.params.id,API_KEY]);
+        console.log(credits)
 
     const opts = {
         height:"390",
@@ -123,7 +124,7 @@ function Movie({match}) {
              <div className="banner--fadebottom"/>
              <div className='flex flex-col items-center justify-start bg-black'>
              <div className='flex flex-row p-2 pb-4 bg-black'>
-                <div className='flex flex-col itmes-center text-white m-2 max-w-4xl w-lg'>
+                <div className='flex flex-col itmes-center text-white m-2 max-w-4xl w-2xl'>
                 <div className='p-2 flex flex-row'>
                   <span className='font-bold text-lg'>
                     Release Date : &nbsp;
@@ -201,18 +202,20 @@ function Movie({match}) {
                   </div>
                 ))}
                 <div className='pt-8 w-full'>
-                  <span className='font-extrabold text-white text-2xl'>Credits</span>
+                  <span className='font-extrabold text-white text-2xl'>Casts</span>
                   <div className='row__inner'>
                 {credits.map(credit => (
 
-                  <div className={"tile"} key={credit?.id}>
+                  <div className={"tile"}>
                   <div className="tile__media">
-                  <img className={"tile__img "} 
-                  key={credit?.id} 
-                  src={`${base_url}${credit?.profile_path}`} 
-                  alt={credit?.original_name}
-                  //onClick={() => handleClick(movie)}
-                  />    
+                    <div className='flex flex-row flex-wrap justify-center items-center'>
+                      {credit?.profile_path &&(
+                  <img src={`${base_url}${credit?.profile_path}`} className='max-w-md w-36 object-contain'/>)}
+                  <div className='flex flex-col items-center'>
+                  <span className='text-base items-center'>{credit.name}</span>
+                  <span className='text-base items-center'>{credit.known_for_department}</span>
+                  </div>
+                  </div>
                   </div>
               </div>
 
@@ -220,7 +223,7 @@ function Movie({match}) {
                 </div>
                 </div>
 
-                <div className='pt-8 w-full'>
+                <div className='w-full'>
                   <span className='font-extrabold text-white text-2xl'>Recommended Movies</span>
                   <div className='row__inner'>
                 {recommends.map(recommend => (
