@@ -6,6 +6,12 @@ import movieTrailer from 'movie-trailer'
 import CurrencyFormat from 'react-currency-format';
 import './row.css'
 import { Link } from 'react-router-dom';
+import Modal from "@material-tailwind/react/Modal";
+import ModalHeader from "@material-tailwind/react/ModalHeader";
+import ModalBody from "@material-tailwind/react/ModalBody";
+import ModalFooter from "@material-tailwind/react/ModalFooter";
+import Button from "@material-tailwind/react/Button";
+
 
 function truncate(str,n){
     return str?.length > n ? str.substr(0, n-1) + "...": str;
@@ -17,6 +23,7 @@ function Movie({match}) {
     const [trailerUrl, setTrailerUrl]= useState("");
     const [recommends, setRecommends]= useState([]); 
     const [credits, setCredits]= useState([]); 
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         document.title =`${movie?.title || movie?.name || movie?.original_name}`;
@@ -51,8 +58,8 @@ function Movie({match}) {
         console.log(credits)
 
     const opts = {
-        height:"390",
-        width:"100%",
+      height: '390',
+      width: '840',
         playerVars: {
             autoplay: 1,
 
@@ -60,21 +67,23 @@ function Movie({match}) {
     };
 
     const handleClick = (movie) => {
-
-        if (trailerUrl) {
-          setTrailerUrl("");
-        } else {
-          movieTrailer(movie?.title || movie?.name || movie?.original_name || "")
-            .then((url) => {
-              const urlParams = new URLSearchParams(new URL(url).search);
-              setTrailerUrl(urlParams.get("v"));
+      
+      if (trailerUrl) {
+        setTrailerUrl("");
+      } else {
+        movieTrailer(movie?.title || movie?.name || movie?.original_name || "")
+        .then((url) => {
+          const urlParams = new URLSearchParams(new URL(url).search);
+          setTrailerUrl(urlParams.get("v"));
+          setShowModal(true)
             })
             .catch((error) => console.log(error));
         }
       };
 
   return (
-
+    <div>
+      {movie ? 
         <header className="banner"
         style={{ 
             // backgroundSize:"100% 100%",
@@ -96,6 +105,26 @@ function Movie({match}) {
             bottom: "-1px",
 
         }}>
+          <Modal size="lg" active={showModal} toggler={() => setShowModal(false)}>
+                <ModalHeader toggler={() => setShowModal(false)}>
+                {movie?.title || movie?.name || movie?.original_name}
+                </ModalHeader>
+                <ModalBody>
+                <p className="text-base leading-relaxed text-gray-600 font-normal">       
+                {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
+                    </p>
+                </ModalBody>
+                <ModalFooter>
+                    <Button 
+                        color="red"
+                        buttonType="link"
+                        onClick={(e) => setShowModal(false)}
+                        ripple="dark"
+                    >
+                        Close
+                    </Button>
+                </ModalFooter>
+            </Modal>
              <div className="banner__contents">
                 <h1 className="flex flex-row justify-start items-center text-white max-w-4xl w-xl font-serif font-extrabold text-5xl">
                  {movie?.title || movie?.name || movie?.original_name}
@@ -120,9 +149,13 @@ function Movie({match}) {
                 
                 <h1 className="banner__description">{truncate(movie?.overview,350)}</h1>
              </div>
-             {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
+             
              <div className="banner--fadebottom"/>
+             
              <div className='flex flex-col items-center justify-start bg-black'>
+             <div class="py-4">
+            <div class="w-full border-t border-white"></div>
+            </div> 
              <div className='flex flex-row p-2 pb-4 bg-black'>
                 <div className='flex flex-col itmes-center text-white m-2 max-w-4xl w-2xl'>
                 <div className='p-2 flex flex-row'>
@@ -196,12 +229,16 @@ function Movie({match}) {
                     Production Countries : &nbsp;
                   </span>
                   </div>
+                  
                 {movie?.production_countries?.map(prod => (
                   <div key={prod?.id} className='flex flex-row w-sm items-center'>
                     <span className='font-semibold text-white text-lg p-2'>{prod?.name}-{prod?.iso_3166_1}</span>
                   </div>
                 ))}
-                <div className='pt-8 w-full'>
+                <div class="py-4">
+    <div class="w-full border-t border-gray-300"></div>
+</div>
+                <div className=' w-full'>
                   <span className='font-extrabold text-white text-2xl'>Casts</span>
                   <div className='row__inner'>
                 {credits.map(credit => (
@@ -222,7 +259,9 @@ function Movie({match}) {
                 ))}
                 </div>
                 </div>
-
+<div class="py-4">
+    <div class="w-full border-t border-gray-300"></div>
+</div>
                 <div className='w-full'>
                   <span className='font-extrabold text-white text-2xl'>Recommended Movies</span>
                   <div className='row__inner'>
@@ -248,6 +287,12 @@ function Movie({match}) {
                 </div>
               </div>
         </header>
+        : 
+        <div class=" flex justify-center items-center">
+  <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+</div>
+                }
+                </div>
 
   )
 }
