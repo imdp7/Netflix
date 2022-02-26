@@ -5,6 +5,7 @@ import Register from './User/Register'
 import Home from './Home';
 import Main from './Main';
 import Movie from './Movie';
+import Account from './User/Account';
 
 function Routes() {
   return (
@@ -14,6 +15,7 @@ function Routes() {
         <Route path="/login" component={Login}  exact={true}/>
         <Route path="/movie/:id" component={Movie}  exact={true}/>
         <Route path="/register" component={Register} exact={true}/>
+        <Route path="/account" component={Account} exact={true}/>
     </div>
   )
 }

@@ -1,7 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { Link,useHistory } from "react-router-dom";
-import {generateUserDocument,auth,signInWithGoogle} from '../firebase'
-import { ToastContainer, toast } from 'react-toastify';
+import {generateUserDocument,auth,provider,db} from '../firebase'
 import hero from '../assets/hero.jpeg'
 import TextField from '@mui/material/TextField';
 
@@ -14,9 +13,10 @@ function Register() {
   const [password, setPassword] = useState("");
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    document.title = ` Create your login | Netflix`;
+    document.title = `Create your login | Netflix`;
   },[],6000);
 
   useEffect(() => {
@@ -29,8 +29,8 @@ function Register() {
   }, [user])
 
   const createUserWithEmailAndPasswordHandler = (event, email, password) => {
-    event.preventDefault();
-    try{
+    try {
+      event.preventDefault();
       const {user} = auth.createUserWithEmailAndPassword(email, password);
       generateUserDocument(user, {FirstName,LastName})
       .then((response) => {
@@ -41,14 +41,36 @@ function Register() {
         history.push("/home")
       })
     }
-      catch(error){
-      toast.error("Error signing up with email and password", error);
+      catch(error) {
+      setError("Error signing up with email and password", error);
       setEmail("");
       setPassword("");
       setFirstName("");
       setLastName("");
-    }
+    };
+  };
 
+  const signInWithGoogle = async () => {
+    try {
+      const res = await auth.signInWithPopup(provider);
+      const user = res.user;
+      const query = await db
+        .collection("users")
+        .where("uid", "==", user.uid)
+        .get();
+      if (query.docs.length === 0) {
+        await db.collection("users").add({
+          uid: user.uid,
+          name: user.displayName,
+          authProvider: "google",
+          email: user.email,
+        });
+      }
+      history.push('/home')
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
   };
 
   const onChangeHandler = (event) => {
@@ -68,10 +90,11 @@ function Register() {
   return (
     <div className='flex justify-center items-center'>
      <div className="relative w-full h-full bg-black">
-      <ToastContainer/>
   <img className='h-screen w-full bg-center bg-no-repeat bg-cover relative opacity-25' src={hero}/>
         <div className="absolute w-full h-full top-0 left-0 flex flex-col  justify-center items-center ">
-          <h2 className=' text-white p-2 font-bold text-2xl'>Sign In</h2>
+          <h2 className=' text-white p-2 font-bold text-2xl'>Sign Up</h2>
+          {error !== null && <div className = "py-4 bg-red-600 px-4 text-white font-sans font-medium text-center mb-3">{error}</div>}
+          <div className="flex flex-row p-2 items-center max-w-lg w-full justify-between"></div>
           <div className="flex flex-row p-2 items-center max-w-lg w-full justify-between">
           <TextField
           id="FirstName"
@@ -84,6 +107,7 @@ function Register() {
           value={FirstName}
           onChange = {(event) => onChangeHandler(event)}
           required
+          error={error}
         />
     </div>
     <div className="flex flex-row p-2 items-center max-w-lg w-full justify-between">
@@ -98,6 +122,7 @@ function Register() {
           value={LastName}
           onChange = {(event) => onChangeHandler(event)}
           required
+          error={error}
         />
     </div>
     <div className="flex flex-row p-2 items-center max-w-lg w-full justify-between">
@@ -112,6 +137,7 @@ function Register() {
           value = {email}
           onChange = {(event) => onChangeHandler(event)}
           required
+          error={error}
         />
     </div>
     <div className="flex flex-row p-2 items-center max-w-lg w-full justify-between">
@@ -126,6 +152,7 @@ function Register() {
           value = {password}
           onChange = {(event) => onChangeHandler(event)}
           required
+          error={error}
         />
     </div>
         <div className="flex flex-row p-2 items-center max-w-lg w-full justify-center">

@@ -9,8 +9,6 @@ import { Link } from 'react-router-dom';
 import Modal from "@material-tailwind/react/Modal";
 import ModalHeader from "@material-tailwind/react/ModalHeader";
 import ModalBody from "@material-tailwind/react/ModalBody";
-import ModalFooter from "@material-tailwind/react/ModalFooter";
-import Button from "@material-tailwind/react/Button";
 
 
 function truncate(str,n){
@@ -82,8 +80,7 @@ function Movie({match}) {
       };
 
   return (
-    <div>
-      {movie ? 
+ 
         <header className="banner"
         style={{ 
             // backgroundSize:"100% 100%",
@@ -114,7 +111,7 @@ function Movie({match}) {
                 {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
                     </p>
                 </ModalBody>
-                <ModalFooter>
+                {/* <ModalFooter>
                     <Button 
                         color="red"
                         buttonType="link"
@@ -123,7 +120,7 @@ function Movie({match}) {
                     >
                         Close
                     </Button>
-                </ModalFooter>
+                </ModalFooter> */}
             </Modal>
              <div className="banner__contents">
                 <h1 className="flex flex-row justify-start items-center text-white max-w-4xl w-xl font-serif font-extrabold text-5xl">
@@ -156,7 +153,7 @@ function Movie({match}) {
              <div class="py-4">
             <div class="w-full border-t border-white"></div>
             </div> 
-             <div className='flex flex-row p-2 pb-4 bg-black'>
+             <div className='flex flex-row p-2 pb-4 bg-black flex-wrap'>
                 <div className='flex flex-col itmes-center text-white m-2 max-w-4xl w-2xl'>
                 <div className='p-2 flex flex-row'>
                   <span className='font-bold text-lg'>
@@ -287,12 +284,6 @@ function Movie({match}) {
                 </div>
               </div>
         </header>
-        : 
-        <div class=" flex justify-center items-center">
-  <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-</div>
-                }
-                </div>
 
   )
 }

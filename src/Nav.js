@@ -49,7 +49,7 @@ function Nav() {
                <Link to={'/home'}>
             <div>
             <img
-              className="nav__logo"
+              className="nav__logo bg-transparent"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1024px-Netflix_2015_logo.svg.png"
               alt="Netflix Logo"
               />
@@ -91,7 +91,9 @@ function Nav() {
        <Link to='/login'> <MenuItem onClick={handleClose}>Login</MenuItem></Link>
        : null}
         {user ?
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <Link to='/account'>
+        <MenuItem onClick={handleClose}>{user.displayName || user.name || user.FirstName}</MenuItem>
+        </Link>
         : null }
          {user ?
         <MenuItem onClick={logout}>Logout</MenuItem>

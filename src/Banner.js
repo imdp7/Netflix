@@ -2,11 +2,16 @@ import React,{useState, useEffect} from 'react'
 import axios from './axios'
 import requests from './requests'
 import './Banner.css'
+import Modal from "@material-tailwind/react/Modal";
+import ModalHeader from "@material-tailwind/react/ModalHeader";
+import ModalBody from "@material-tailwind/react/ModalBody";
 
 const base_url="https://image.tmdb.org/t/p/original/" 
 function Banner() {
     const [movie,setMovie] = useState([]);
-
+    const [showModal, setShowModal] = useState(false);
+    const [trailerUrl, setTrailerUrl]= useState("");
+    
     useEffect(() => {
         async function fetchData()  {
             const request = await axios.get(requests.fetchTrending);
@@ -20,6 +25,20 @@ function Banner() {
         fetchData();
     },[]);
     
+    const handleClick = (movie) => {
+      
+        if (trailerUrl) {
+          setTrailerUrl("");
+        } else {
+          movieTrailer(movie?.title || movie?.name || movie?.original_name || "")
+          .then((url) => {
+            const urlParams = new URLSearchParams(new URL(url).search);
+            setTrailerUrl(urlParams.get("v"));
+            setShowModal(true)
+              })
+              .catch((error) => console.log(error));
+          }
+        };
 
     function truncate(str,n){
         return str?.length > n ? str.substr(0, n-1) + "...": str;
@@ -45,12 +64,32 @@ function Banner() {
             bottom: "-1px",
             opacity: "1",
         }}>
+            <Modal size="lg" active={showModal} toggler={() => setShowModal(false)}>
+                <ModalHeader toggler={() => setShowModal(false)}>
+                {movie?.title || movie?.name || movie?.original_name}
+                </ModalHeader>
+                <ModalBody>
+                <p className="text-base leading-relaxed text-gray-600 font-normal">       
+                {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
+                    </p>
+                </ModalBody>
+                {/* <ModalFooter>
+                    <Button 
+                        color="red"
+                        buttonType="link"
+                        onClick={(e) => setShowModal(false)}
+                        ripple="dark"
+                    >
+                        Close
+                    </Button>
+                </ModalFooter> */}
+            </Modal>
              <div className="banner__contents">
                 <h1 className="banner__title">
                  {movie?.title || movie?.name || movie?.original_name}
                 </h1>
                 <div className="banner__buttons">
-                <button className="banner__button">Play</button>
+                <button className="banner__button" onClick={() => handleClick(movie)}>Play</button>
                 <button className="banner__button">My List</button> 
                 </div>
                 <h1 className="banner__description">{truncate(movie?.overview,350)}</h1>

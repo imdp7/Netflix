@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBtbn-9ucus0wIQTPbXkEVp_erxFDIoKjk",
@@ -16,7 +16,7 @@ const firebaseConfig = {
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
-const provider = new firebase.auth.GoogleAuthProvider();
+export const provider = new firebase.auth.GoogleAuthProvider();
 const db = firebaseApp.firestore({ experimentalForceLongPolling: true });
 
 export const signInWithGoogle = async () => {
@@ -35,7 +35,7 @@ export const signInWithGoogle = async () => {
         email: user.email,
       });
     }
-    <Redirect to='/home'/>
+    history.push('/home')
   } catch (err) {
     console.error(err);
     alert(err.message);
