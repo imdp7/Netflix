@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link, Redirect,useHistory } from 'react-router-dom';
 import {UserContext} from './Providers/UserContext'
 import {auth} from './firebase'
+import Search from './Search'
 
 function Nav() {
     const { user } = useContext(UserContext);
@@ -44,12 +45,13 @@ function Nav() {
     }
 
     return (
-        <div className={`nav ${show && "nav__black"}`}>
+        <div className={`nav items-center ${show && "nav__black "}`}>
+
             {user ? 
                <Link to={'/home'}>
-            <div>
+            <div className='items-center'>
             <img
-              className="nav__logo bg-transparent"
+              className="nav__logo"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1024px-Netflix_2015_logo.svg.png"
               alt="Netflix Logo"
               />
@@ -57,7 +59,7 @@ function Nav() {
               </Link>
               : 
               <Link to={'/'}>
-              <div>
+              <div className='items-center'>
             <img
               className="nav__logo"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1024px-Netflix_2015_logo.svg.png"
@@ -66,8 +68,24 @@ function Nav() {
               </div>
               </Link>
             }
+            {
+              user && show &&(
+
+            <div className={`flex flex-row gap-5 text-black font-bold text-lg font-serif space-x-5 ${show && "text-white"}`}>
+              <Link to="/tvshows"><p>TV shows</p></Link>
+              <Link to="/movies"><p>Movies</p></Link>
+              <Link to="/browse"><p>Browse</p></Link>
+            </div>
+              )
+            }
+
+            {user && show  ? 
+              <div className={` items-center ${show && "nav__black"}`}>
+              <Search/>
+              </div> :
+            null }
               {user ? 
-              <div>
+              <div className='items-center'>
               <img 
               className="user__logo"
               src="https://pro2-bar-s3-cdn-cf1.myportfolio.com/dddb0c1b4ab622854dd81280840458d3/98032aebff601c1d993e12a0.png?h=eba99c47b726e04e1228d83852b69211"

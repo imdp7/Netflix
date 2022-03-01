@@ -1,15 +1,12 @@
 import React, {useState,useEffect} from 'react';
 import axios from './axios';
 import './row.css'
-import YouTube from 'react-youtube';
-import movieTrailer from 'movie-trailer'
 import{Link} from 'react-router-dom'
 
 const base_url="https://image.tmdb.org/t/p/original/" 
 
 function Row({title ,fetchUrl ,isLargeRow}) {
-    const [movies, setMovies]= useState([]); 
-    const [trailerUrl, setTrailerUrl]= useState("");
+    const [movies, setMovies]= useState([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -28,20 +25,6 @@ function Row({title ,fetchUrl ,isLargeRow}) {
 
         },
     };
-    // const handleClick = (movie) => {
-    //     console.table(movie);
-    //     if (trailerUrl) {
-    //       setTrailerUrl("");
-    //     } else {
-    //       movieTrailer(movie?.title || movie?.name || movie?.original_name || "")
-    //         .then((url) => {
-    //           const urlParams = new URLSearchParams(new URL(url).search);
-    //           console.log("urlParams = " + urlParams);
-    //           setTrailerUrl(urlParams.get("v"));
-    //         })
-    //         .catch((error) => console.log(error));
-    //     }
-    //   };
 
     return (
         <div className="row">
@@ -49,25 +32,27 @@ function Row({title ,fetchUrl ,isLargeRow}) {
             <div className="row__inner">
               
                 {movies.map(movie => (
-                  <Link to={{pathname:`/movie/${movie.id}`, state:{movie: movie}}} key={movie.id}>
-                    <div className={"tile"} key={movie.id}>
+                  <Link to={{pathname:`/movie/${movie.id}`}} key={movie.id} >
+                    <div className={"tile"} key={movie.id} >
                     <div className="tile__media">
-                    <img className={`tile__img  ${isLargeRow && "row__posterLarge"}`} 
+                    <img className={`tile__img  ${isLargeRow && "row__posterLarge"}`}
+                    title={movie.original_name}
                     key={movie.id} 
                     src={`${base_url}${movie.poster_path}`} 
                     alt={movie.name}
-                    //onClick={() => handleClick(movie)}
                     />
-                    
-
-                    
-                    </div>
+                    {/* <div key={movie.id} className='flex flex-col flex-wrap'>
+                        {hover && ( 
+                        <span className='text-white'>
+                            {movie.name || movie.title || movie.original_name}
+                        </span>
+                            )}
+                    </div> */}
+                        </div>
                     </div>
                     </Link>
                 ))}
-
         </div>
-        {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
         </div>
     )
     }

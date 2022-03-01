@@ -16,6 +16,7 @@ function Routes() {
         <Route path="/movie/:id" component={Movie}  exact={true}/>
         <Route path="/register" component={Register} exact={true}/>
         <Route path="/account" component={Account} exact={true}/>
+        <Route path="*" element={<Main/>}/>
     </div>
   )
 }

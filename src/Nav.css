@@ -3,27 +3,30 @@
   top: 0;
   display: flex;
   justify-content: space-between;
-  height: 60px;
-  z-index: 1;
+  height: 70px;
+  z-index: 10;
+  background-color: transparent;
   width: 100%;
-  padding: 20px;
   transition-timing-function: ease-in;
   transition: all 0.5s;
+  padding: 10px 20px;
+  
 }
 
 .nav__black {
   background-color: black;
+  color: white;
 }
 
 .nav__logo {
-  width: 120px;
+  width: 140px;
   left: 30px;
-  position: fixed;
   object-fit: contain;
+  top: 5;
 }
 .user__logo {
-  width: 30px;
-  position: fixed;
+  width: 40px;
   right: 30px;
   object-fit: contain;
+  padding: 2px;
 }

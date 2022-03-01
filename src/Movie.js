@@ -53,7 +53,6 @@ function Movie({match}) {
           }
           fetchData();
         },[match.params.id,API_KEY]);
-        console.log(credits)
 
     const opts = {
       height: '390',
@@ -83,18 +82,18 @@ function Movie({match}) {
  
         <header className="banner"
         style={{ 
-            // backgroundSize:"100% 100%",
+             backgroundSize:"100% 100%",
             backgroundImage:`url("${base_url}${movie?.backdrop_path}")`,
             opacity:0.8,
-            //backgroundColor:'rgba(0, 0, 0, 0.1)',
-            // backgroundPosition: "0 top",
+            backgroundColor:'rgba(0, 0, 0, 0.1)',
+             backgroundPosition: "0 top",
              backgroundAttachment: "fixed",
              backgroundRepeat: 'no-repeat',
-             zIndex:'-200',
+             zIndex:'200',
             objectFit:'cover',
             backgroundSize: "100% 100%",
             backgroundPosition: "0 top",
-            //backgroundRepeat: "repeat-x",
+            backgroundRepeat: "repeat-x",
             backgroundColor: "transparent",
             width: "100%",
             height: "49.5rem",
@@ -135,12 +134,12 @@ function Movie({match}) {
                 
                 </div>
 
-                <div className="banner__buttons pt-2">
+                <div className="p-2">
                 <button className="banner__button" onClick={() => handleClick(movie)}>Play</button>
                 <button className="banner__button">My List</button>
                 
                 {movie.vote_average && (
-                <button className="banner__button rounded-lg bg-red-600">{movie.vote_average} stars</button> 
+                <button className="banner__button rounded-lg hover:bg-red-600">{movie.vote_average} stars</button> 
                 )}
                 </div>
                 
@@ -216,7 +215,7 @@ function Movie({match}) {
                 {movie?.production_companies?.map(prod => (
                   <div key={prod?.id} className='flex flex-row items-center'>
                     <div className='p-2'>
-                    <img src={`${base_url}${prod?.logo_path}`} className='bg-white w-16 p-2 object-contain'/>
+                    <img src={`${base_url}${prod?.logo_path}`} className='bg-white w-16 h-16  object-contain'/>
                     </div>
                     <span className='font-semibold text-white text-lg p-2'>{prod?.name}-{prod?.origin_country}</span>
                   </div>

@@ -30,7 +30,7 @@
 
 .banner__button {
   cursor: pointer;
-  color: #fff;
+  background-color: rgba(51, 51, 51, 0.58);
   outline: none;
   font-weight: 850;
   border-radius: 0.3vw;

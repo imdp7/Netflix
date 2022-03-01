@@ -2,16 +2,12 @@ import React,{useState, useEffect} from 'react'
 import axios from './axios'
 import requests from './requests'
 import './Banner.css'
-import Modal from "@material-tailwind/react/Modal";
-import ModalHeader from "@material-tailwind/react/ModalHeader";
-import ModalBody from "@material-tailwind/react/ModalBody";
 
 const base_url="https://image.tmdb.org/t/p/original/" 
 function Banner() {
     const [movie,setMovie] = useState([]);
-    const [showModal, setShowModal] = useState(false);
     const [trailerUrl, setTrailerUrl]= useState("");
-    
+
     useEffect(() => {
         async function fetchData()  {
             const request = await axios.get(requests.fetchTrending);
@@ -47,16 +43,16 @@ function Banner() {
     return (
         <header className="banner"
         style={{ 
-            // backgroundSize:"100% 100%",
+             backgroundSize:"100% 100%",
             backgroundImage:`url("${base_url}${movie?.backdrop_path}")`,
-            // backgroundPosition: "0 top",
+             backgroundPosition: "0 top",
              backgroundAttachment: "fixed",
              backgroundRepeat: 'no-repeat',
-             zIndex:'-200',
+             zIndex:'200',
             objectFit:'cover',
             backgroundSize: "100% 100%",
             backgroundPosition: "0 top",
-            //backgroundRepeat: "repeat-x",
+            backgroundRepeat: "repeat-x",
             backgroundColor: "transparent",
             width: "100%",
             height: "49.5rem",
@@ -64,31 +60,11 @@ function Banner() {
             bottom: "-1px",
             opacity: "1",
         }}>
-            <Modal size="lg" active={showModal} toggler={() => setShowModal(false)}>
-                <ModalHeader toggler={() => setShowModal(false)}>
-                {movie?.title || movie?.name || movie?.original_name}
-                </ModalHeader>
-                <ModalBody>
-                <p className="text-base leading-relaxed text-gray-600 font-normal">       
-                {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
-                    </p>
-                </ModalBody>
-                {/* <ModalFooter>
-                    <Button 
-                        color="red"
-                        buttonType="link"
-                        onClick={(e) => setShowModal(false)}
-                        ripple="dark"
-                    >
-                        Close
-                    </Button>
-                </ModalFooter> */}
-            </Modal>
              <div className="banner__contents">
                 <h1 className="banner__title">
                  {movie?.title || movie?.name || movie?.original_name}
                 </h1>
-                <div className="banner__buttons">
+                <div className="flex">
                 <button className="banner__button" onClick={() => handleClick(movie)}>Play</button>
                 <button className="banner__button">My List</button> 
                 </div>
