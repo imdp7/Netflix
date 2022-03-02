@@ -80,12 +80,11 @@ function Movie({match}) {
 
   return (
  
+        
         <header className="banner"
         style={{ 
              backgroundSize:"100% 100%",
             backgroundImage:`url("${base_url}${movie?.backdrop_path}")`,
-            opacity:0.8,
-            backgroundColor:'rgba(0, 0, 0, 0.1)',
              backgroundPosition: "0 top",
              backgroundAttachment: "fixed",
              backgroundRepeat: 'no-repeat',
@@ -99,50 +98,28 @@ function Movie({match}) {
             height: "49.5rem",
             top: "auto",
             bottom: "-1px",
-
+            opacity: "1",
         }}>
-          <Modal size="lg" active={showModal} toggler={() => setShowModal(false)}>
-                <ModalHeader toggler={() => setShowModal(false)}>
-                {movie?.title || movie?.name || movie?.original_name}
-                </ModalHeader>
-                <ModalBody>
-                <p className="text-base leading-relaxed text-gray-600 font-normal">       
-                {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
-                    </p>
-                </ModalBody>
-                {/* <ModalFooter>
-                    <Button 
-                        color="red"
-                        buttonType="link"
-                        onClick={(e) => setShowModal(false)}
-                        ripple="dark"
-                    >
-                        Close
-                    </Button>
-                </ModalFooter> */}
-            </Modal>
+          <div>
+          <Modal id="modal-root" className='flex flex-row justify-center items-center z-25' size="lg" active={showModal} toggler={() => setShowModal(false)}>
+               <ModalHeader toggler={() => setShowModal(false)}>
+               {movie?.title || movie?.name || movie?.original_name}
+               </ModalHeader>
+               <ModalBody>
+               <div>       
+               {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
+                   </div>
+               </ModalBody>
+           </Modal>
              <div className="banner__contents">
-                <h1 className="flex flex-row justify-start items-center text-white max-w-4xl w-xl font-serif font-extrabold text-5xl">
+                <h1 className="banner__title">
                  {movie?.title || movie?.name || movie?.original_name}
                 </h1>
-                  <div className='flex flex-row justify-start items-center place-items-center space-x-2 text-white max-w-lg w-lg '>
-                {movie.tagline &&(
-                <span className="font-serif font-bold pb-2 p-2 text-xl">
-                {movie.tagline} 
-                </span>
-                )}
-                
-                </div>
-
-                <div className="p-2">
+                <div className="flex">
                 <button className="banner__button" onClick={() => handleClick(movie)}>Play</button>
-                <button className="banner__button">My List</button>
-                
-                {movie.vote_average && (
-                <button className="banner__button rounded-lg hover:bg-red-600">{movie.vote_average} stars</button> 
-                )}
+                <button className="banner__button">My List</button> 
+                <button className="banner__button">{movie?.vote_average} stars</button> 
                 </div>
-                
                 <h1 className="banner__description">{truncate(movie?.overview,350)}</h1>
              </div>
              
@@ -207,6 +184,8 @@ function Movie({match}) {
                 <span className="font-semibold text-lg">{movie.overview}</span> 
                 )}
                 </div>
+                {movie?.production_countries && (
+                <div>
                 <div className='p-2 flex flex-row mb-2'>
                 <span className='font-bold text-lg'>
                     Production Companies : &nbsp;
@@ -215,11 +194,21 @@ function Movie({match}) {
                 {movie?.production_companies?.map(prod => (
                   <div key={prod?.id} className='flex flex-row items-center'>
                     <div className='p-2'>
-                    <img src={`${base_url}${prod?.logo_path}`} className='bg-white w-16 h-16  object-contain'/>
+                    <img src={`${base_url}${prod?.logo_path}`} className='bg-white w-24 p-2  object-contain'/>
                     </div>
-                    <span className='font-semibold text-white text-lg p-2'>{prod?.name}-{prod?.origin_country}</span>
+                    {prod.name && (
+                    <span className='font-semibold text-white text-lg p-2'>{prod?.name}</span>
+                    )}
+                    {prod.origin_country && (
+                    <span className='font-semibold text-white text-lg p-2'>({prod?.origin_country})</span>
+                    )}
                   </div>
                 ))}
+                </div>
+                )}
+
+                {movie?.production_countries && (
+                  <div>
                 <div className='flex flex-row pt-2'>
                 <span className='font-bold text-lg'>
                     Production Countries : &nbsp;
@@ -228,25 +217,34 @@ function Movie({match}) {
                   
                 {movie?.production_countries?.map(prod => (
                   <div key={prod?.id} className='flex flex-row w-sm items-center'>
-                    <span className='font-semibold text-white text-lg p-2'>{prod?.name}-{prod?.iso_3166_1}</span>
+                    { prod.name  && (
+                    <span className='font-semibold text-white text-lg p-2'>{prod?.name}</span>
+                    )}
+                    { prod.iso_3166_1  && (
+                    <span className='font-semibold text-white text-lg p-2'>({prod?.iso_3166_1})</span>
+                    )}
                   </div>
                 ))}
+                </div>
+                )}
                 <div class="py-4">
-    <div class="w-full border-t border-gray-300"></div>
-</div>
+                  <div class="w-full border-t border-gray-300"></div>
+                </div>
+                {credits && (
                 <div className=' w-full'>
                   <span className='font-extrabold text-white text-2xl'>Casts</span>
                   <div className='row__inner'>
                 {credits.map(credit => (
 
-                  <div className={"tile"}>
+                  <div className="tile">
                   <div className="tile__media">
                     <div className='flex flex-row flex-wrap justify-center items-center'>
                       {credit?.profile_path &&(
                   <img src={`${base_url}${credit?.profile_path}`} className='max-w-md w-36 object-contain'/>)}
-                  <div className='flex flex-col items-center'>
+                  <div className='flex flex-col items-center flex-wrap max-w-2xl'>
                   <span className='text-base items-center'>{credit.name}</span>
                   <span className='text-base items-center'>{credit.known_for_department}</span>
+                  <span className='text-sm items-center'>{credit.character}</span>
                   </div>
                   </div>
                   </div>
@@ -255,9 +253,11 @@ function Movie({match}) {
                 ))}
                 </div>
                 </div>
-<div class="py-4">
-    <div class="w-full border-t border-gray-300"></div>
-</div>
+                )}
+              <div class="py-4">
+                <div class="w-full border-t border-gray-300"></div>
+              </div>
+                  {recommends && (
                 <div className='w-full'>
                   <span className='font-extrabold text-white text-2xl'>Recommended Movies</span>
                   <div className='row__inner'>
@@ -277,13 +277,15 @@ function Movie({match}) {
                 ))}
                 </div>
                 </div>
+                )}
 
                 </div>
               <img src={`${base_url}${movie?.poster_path}`} className='w-72 object-contain self-start'/>
                 </div>
               </div>
+             
+           </div>
         </header>
-
   )
 }
 

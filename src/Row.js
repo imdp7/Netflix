@@ -7,6 +7,15 @@ const base_url="https://image.tmdb.org/t/p/original/"
 
 function Row({title ,fetchUrl ,isLargeRow}) {
     const [movies, setMovies]= useState([]);
+    const [hover, setHover] = useState(false);
+
+    const onHover = () => {
+        setHover(true);
+      };
+
+    const onLeave = () => {
+    setHover(false);
+    };
 
     useEffect(() => {
         async function fetchData() {
@@ -33,21 +42,22 @@ function Row({title ,fetchUrl ,isLargeRow}) {
               
                 {movies.map(movie => (
                   <Link to={{pathname:`/movie/${movie.id}`}} key={movie.id} >
-                    <div className={"tile"} key={movie.id} >
+                    <div className={"tile max-w-2xl w-lg"} key={movie.id} >
                     <div className="tile__media">
                     <img className={`tile__img  ${isLargeRow && "row__posterLarge"}`}
-                    title={movie.original_name}
+                    onMouseLeave={onLeave} 
+                    onMouseEnter={onHover} 
                     key={movie.id} 
                     src={`${base_url}${movie.poster_path}`} 
                     alt={movie.name}
                     />
-                    {/* <div key={movie.id} className='flex flex-col flex-wrap'>
-                        {hover && ( 
-                        <span className='text-white'>
+                    <div key={movie.id} className='flex flex-col flex-wrap'>
+                        {{tile__img:hover} && ( 
+                        <span className='hidden text-white'>
                             {movie.name || movie.title || movie.original_name}
                         </span>
                             )}
-                    </div> */}
+                    </div>
                         </div>
                     </div>
                     </Link>

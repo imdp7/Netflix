@@ -110,7 +110,7 @@ function Nav() {
        : null}
         {user ?
         <Link to='/account'>
-        <MenuItem onClick={handleClose}>{user.displayName || user.name || user.FirstName}</MenuItem>
+        <MenuItem onClick={handleClose}>{user.displayName || user.email || user.FirstName}</MenuItem>
         </Link>
         : null }
          {user ?
