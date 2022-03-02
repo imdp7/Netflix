@@ -6,6 +6,7 @@ import Home from './Home';
 import Main from './Main';
 import Movie from './Movie';
 import Account from './User/Account';
+import Person from './Person';
 
 function Routes() {
   return (
@@ -14,6 +15,7 @@ function Routes() {
         <Route path="/home" component={Main}  exact={true}/>
         <Route path="/login" component={Login}  exact={true}/>
         <Route path="/movie/:id" component={Movie}  exact={true}/>
+        <Route path="/person/:id" component={Person}  exact={true}/>
         <Route path="/register" component={Register} exact={true}/>
         <Route path="/account" component={Account} exact={true}/>
         <Route path="*" element={<Main/>}/>

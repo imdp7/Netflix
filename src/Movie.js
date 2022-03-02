@@ -118,7 +118,7 @@ function Movie({match}) {
                 <div className="flex">
                 <button className="banner__button" onClick={() => handleClick(movie)}>Play</button>
                 <button className="banner__button">My List</button> 
-                <button className="banner__button">{movie?.vote_average} stars</button> 
+                <button className={`text-white py-3 text-lg font-bold font-sans rounded-lg px-4 hover:bg-gray-300 hover:text-black ${movie?.vote_average < 5 ? "bg-red-500" : "bg-green-500"}`}>{movie?.vote_average} stars</button> 
                 </div>
                 <h1 className="banner__description">{truncate(movie?.overview,350)}</h1>
              </div>
@@ -164,7 +164,7 @@ function Movie({match}) {
                     Status : &nbsp;
                   </span>
                 {movie.status && (
-                <span className="font-semibold text-lg">{movie.status}</span> 
+                <span className={`font-semibold text-lg ${movie.status =="Released" ? "text-green-500" : "text-red-500"}`}>{movie.status}</span> 
                 )}
                 </div>
                 <div className='p-2 flex flex-row'>
@@ -194,7 +194,7 @@ function Movie({match}) {
                 {movie?.production_companies?.map(prod => (
                   <div key={prod?.id} className='flex flex-row items-center'>
                     <div className='p-2'>
-                    <img src={`${base_url}${prod?.logo_path}`} className='bg-white w-24 p-2  object-contain'/>
+                    <img src={`${base_url}${prod?.logo_path}`} className='bg-white w-16 h-16 mx-auto  object-contain'/>
                     </div>
                     {prod.name && (
                     <span className='font-semibold text-white text-lg p-2'>{prod?.name}</span>
@@ -240,7 +240,10 @@ function Movie({match}) {
                   <div className="tile__media">
                     <div className='flex flex-row flex-wrap justify-center items-center'>
                       {credit?.profile_path &&(
-                  <img src={`${base_url}${credit?.profile_path}`} className='max-w-md w-36 object-contain'/>)}
+                        <Link to={{pathname:`/person/${credit.id}`}} key={credit.id}>
+                  <img src={`${base_url}${credit?.profile_path}`} className='max-w-md w-36 object-contain'/>
+                      </Link>
+                  )}
                   <div className='flex flex-col items-center flex-wrap max-w-2xl'>
                   <span className='text-base items-center'>{credit.name}</span>
                   <span className='text-base items-center'>{credit.known_for_department}</span>
@@ -269,7 +272,6 @@ function Movie({match}) {
                   key={recommend.id} 
                   src={`${base_url}${recommend.poster_path}`} 
                   alt={recommend.name}
-                  //onClick={() => handleClick(movie)}
                   />    
                   </div>
               </div>

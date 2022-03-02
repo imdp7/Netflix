@@ -80,7 +80,7 @@ function Banner() {
                 <div className="flex">
                 <button className="banner__button" onClick={() => handleClick(movie)}>Play</button>
                 <button className="banner__button">My List</button>
-                <button className="banner__button">{movie?.vote_average} stars</button>
+                <button className={`text-white py-3 text-lg font-bold font-sans rounded-lg px-4 hover:bg-gray-300 hover:text-black ${movie?.vote_average < 5 ? "bg-red-500" : "bg-green-500"}`}>{movie?.vote_average} stars</button> 
                 </div>
                 <h1 className="banner__description">{truncate(movie?.overview,350)}</h1>
              </div>
