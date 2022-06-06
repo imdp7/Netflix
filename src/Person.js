@@ -12,6 +12,7 @@ function Person({match}) {
     const base_url="https://image.tmdb.org/t/p/original/"
     const [person,setPerson] = useState([])
     const [movies,setMovies] = useState([])
+    const [tv,setTv] = useState([])
 
     useEffect(() => {
         document.title =`${person?.name} | Profile`;
@@ -37,14 +38,24 @@ function Person({match}) {
         fetchData();
     },[match.params.id,API_KEY]);
 
+      useEffect(() => {
+        async function fetchData() {
+            const request = await axios.get(`https://api.themoviedb.org/3/person/${match.params.id}/tv_credits?api_key=${API_KEY}&language=en-US`);
+            setTv(request.data.cast);
+            return request;
+        }
+        fetchData();
+    },[match.params.id,API_KEY]);
+
 
   return (
     <div className='max-w-full bg-black'>
     <div className='flex-col justify-center span-x-4 w-3xl flex-wrap'>
         <div className='flex flex-row span-x-8 w-4xl justify-start pl-8 pr-8 bg-black pt-16'>
+
         <div className='w-auto p-2 m-2'>
         <img src={`${base_url}${person?.profile_path}`} className='w-96 object-contain p-2 mx-auto rounded-3xl'/>
-        <div className='flex flex-col p-2 m-2 text-white font-bold shadow-2xl bg-black justify-evenly items-center'>
+        <div className='flex flex-col p-2 m-2 text-white font-bold shadow-2xl bg-black justify-center items-center'>
             {person?.name && (
         <span className='text-center text-3xl py-4 font-mono border-b border-white'>
             {person?.name}
@@ -90,7 +101,7 @@ function Person({match}) {
                 <span>
                     <PlaceIcon/>
                 </span>
-        <span className='text-lg px-3 text-center'>
+        <span className='text-lg text-center'>
             {person?.place_of_birth}
         </span>
         </div>
@@ -109,6 +120,7 @@ function Person({match}) {
         </div>
             )}
         </div>
+        <div className='flex flex-row flex-wrap max-w-4xl'>
         {person?.biography && (
         <div className='flex flex-wrap w-full p-2 text-xl  bg-black rounded-2xl m-2 shadow-2xl'>
         <span className='text-white p-2 justify-evenly'>
@@ -116,6 +128,30 @@ function Person({match}) {
         </span>
         </div>
         )}
+        {tv && (
+                <div className='flex flex-wrap w-full'>
+                    <div>
+                  <span className='font-extrabold text-white text-2xl'>TV shows by {person.name}</span>
+                  </div>
+                  <div className='row__inner'>
+                {tv.map(t => (
+                  <Link to={{pathname:`/tvshows/${t.id}`}} key={t.id}>
+                  <div className={"tile"} key={t.id}>
+                  <div className="tile__media">
+                  <img className={"tile__img "} 
+                  key={t.id} 
+                  src={`${base_url}${t.poster_path}`} 
+                  alt={t.name}
+                  />    
+                  </div>
+              </div>
+              </Link>
+                ))}
+                </div>
+                </div>
+        )}
+            </div>
+            
         </div>
        
         

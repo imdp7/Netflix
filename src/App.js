@@ -10,6 +10,7 @@ import Register from './User/Register';
 import Routes from './Routes';
 import Movie from './Movie';
 import Account from './User/Account';
+import Tvshows from './Tvshows';
 
 function RouteWithSubRoutes(route) {
   return (
@@ -49,6 +50,11 @@ const routes = [
   {
     path: "/account",
     component: Account,
+    exact: true
+  },
+  {
+    path: "/tvshows",
+    component: Tvshows,
     exact: true
   },
 ];

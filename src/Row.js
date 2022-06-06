@@ -5,7 +5,7 @@ import{Link} from 'react-router-dom'
 
 const base_url="https://image.tmdb.org/t/p/original/" 
 
-function Row({title ,fetchUrl ,isLargeRow}) {
+function Row({title ,fetchUrl ,isLargeRow,props}) {
     const [movies, setMovies]= useState([]);
     const [hover, setHover] = useState(false);
 
@@ -41,7 +41,7 @@ function Row({title ,fetchUrl ,isLargeRow}) {
             <div className="row__inner">
               
                 {movies.map(movie => (
-                  <Link to={{pathname:`/movie/${movie.id}`}} key={movie.id} >
+                  <Link to={{pathname:`/${props}/${movie.id}`}} key={movie.id} >
                     <div className={"tile max-w-2xl w-lg"} key={movie.id} >
                     <div className="tile__media">
                     <img className={`tile__img  ${isLargeRow && "row__posterLarge"}`}

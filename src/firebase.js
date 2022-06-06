@@ -1,8 +1,9 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { useHistory } from "react-router-dom";
+import { getAnalytics } from "firebase/analytics";
 
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBtbn-9ucus0wIQTPbXkEVp_erxFDIoKjk",
   authDomain: "netflix-90293.firebaseapp.com",
@@ -15,6 +16,7 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 export const auth = firebase.auth();
 export const provider = new firebase.auth.GoogleAuthProvider();
 const db = firebaseApp.firestore({ experimentalForceLongPolling: true });

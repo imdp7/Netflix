@@ -119,7 +119,8 @@ function Movie({match}) {
             opacity: "1",
         }}>
           <div>
-          <Modal id="modal-root" className='flex flex-row justify-center items-center z-25' size="lg" active={showModal} toggler={() => setShowModal(false)}>
+            {trailerUrl && (
+          <Modal id="modal-root" className='flex flex-row justify-center items-center' size="lg" active={showModal} toggler={() => setShowModal(false)}>
                <ModalHeader toggler={() => setShowModal(false)}>
                {movie?.title || movie?.name || movie?.original_name}
                </ModalHeader>
@@ -129,6 +130,7 @@ function Movie({match}) {
                    </div>
                </ModalBody>
            </Modal>
+           )}
              <div className="banner__contents">
                 <h1 className="banner__title">
                  {movie?.title || movie?.name || movie?.original_name}

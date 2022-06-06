@@ -73,7 +73,7 @@ function Nav() {
 
             <div className={`flex flex-row gap-5 text-black font-bold text-lg font-serif space-x-5 ${show && "text-white"}`}>
               <Link to="/tvshows"><p>TV shows</p></Link>
-              <Link to="/movies"><p>Movies</p></Link>
+              <Link to="/home"><p>Movies</p></Link>
               <Link to="/browse"><p>Browse</p></Link>
             </div>
               )
