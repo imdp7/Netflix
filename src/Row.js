@@ -40,18 +40,19 @@ function Row({title ,fetchUrl ,isLargeRow,props}) {
         <span className="font-extrabold text-white m-2 p-3 text-2xl">{title}</span>
             <div className="row__inner">
               
-                {movies.map(movie => (
-                  <Link to={{pathname:`/${props}/${movie.id}`}} key={movie.id} >
-                    <div className={"tile max-w-2xl w-lg"} key={movie.id} >
+                {movies.map((movie) => (
+
+                  <Link to={{pathname:`/${props}/${movie.id}`}} key={movie?.id}>
+                    <div className={"tile max-w-2xl w-lg"}>
                     <div className="tile__media">
                     <img className={`tile__img  ${isLargeRow && "row__posterLarge"}`}
                     onMouseLeave={onLeave} 
                     onMouseEnter={onHover} 
-                    key={movie.id} 
+                    key={movie.poster_path} 
                     src={`${base_url}${movie.poster_path}`} 
                     alt={movie.name}
                     />
-                    <div key={movie.id} className='flex flex-col flex-wrap'>
+                    <div key={movie.title} className='flex flex-col flex-wrap'>
                         {{tile__img:hover} && ( 
                         <span className='hidden text-white'>
                             {movie.name || movie.title || movie.original_name}
@@ -61,6 +62,7 @@ function Row({title ,fetchUrl ,isLargeRow,props}) {
                         </div>
                     </div>
                     </Link>
+
                 ))}
         </div>
         </div>

@@ -12,9 +12,7 @@ import ModalBody from "@material-tailwind/react/ModalBody";
 import WatchProvider from './WatchProvider';
 
 
-function truncate(str,n){
-    return str?.length > n ? str.substr(0, n-1) + "...": str;
-} 
+
 
 function Movie({match}) {
     const base_url="https://image.tmdb.org/t/p/original/"
@@ -80,7 +78,9 @@ function Movie({match}) {
       height: 390,
       width: 840,
     };
-
+    function truncate(str,n){
+      return str?.length > n ? str.substr(0, n-1) + "...": str;
+  } 
     const handleClick = (movie) => {
       
       if (trailerUrl) {
@@ -147,8 +147,8 @@ function Movie({match}) {
              <div className="banner--fadebottom"/>
              
              <div className='flex flex-col items-center justify-start bg-black'>
-             <div class="py-4">
-            <div class="w-full border-t border-white"></div>
+             <div className="py-4">
+            <div className="w-full border-t border-white"></div>
             </div> 
              <div className='flex flex-row p-2 pb-4 bg-black flex-wrap'>
                 <div className='flex flex-col itmes-center text-white m-2 max-w-4xl w-2xl'>
@@ -247,7 +247,7 @@ function Movie({match}) {
                   </div>
                   
                 {movie?.production_countries?.map(prod => (
-                  <div key={prod?.id} className='flex flex-row w-sm items-center'>
+                  <div key={prod?.name} className='flex flex-row w-sm items-center'>
                     { prod.name  && (
                     <span className='font-semibold text-white text-lg p-2'>{prod?.name}</span>
                     )}
@@ -262,8 +262,8 @@ function Movie({match}) {
 
                 <WatchProvider provider={providers}/>
 
-                <div class="py-4">
-                  <div class="w-full border-t border-gray-300"></div>
+                <div className="py-4">
+                  <div className="w-full border-t border-gray-300"></div>
                 </div>
                 {credits && (
                 <div className=' w-full'>
@@ -271,7 +271,7 @@ function Movie({match}) {
                   <div className='row__inner'>
                 {credits.map(credit => (
 
-                  <div className="tile">
+                  <div className="tile" key={credit.id}>
                   <div className="tile__media">
                     <div className='flex flex-row flex-wrap justify-center items-center'>
                       {credit?.profile_path &&(
@@ -292,8 +292,8 @@ function Movie({match}) {
                 </div>
                 </div>
                 )}
-                  <div class="py-4">
-                <div class="w-full border-t border-gray-300"></div>
+                  <div className="py-4">
+                <div className="w-full border-t border-gray-300"></div>
               </div>
               {trailer && (
                 <div className='w-full'>
@@ -301,7 +301,7 @@ function Movie({match}) {
                   <div className='py-4'>
                     <div className="grid grid-cols-3 gap-3">
                   {trailer.map(t => (
-                    <div className='py-2 w-full'>
+                    <div className='py-2 w-full' key={t.key}>
                        <YouTube videoId={t.key} className='w-auto h-auto'/>
                        </div>
                        ))}
@@ -309,8 +309,8 @@ function Movie({match}) {
                   </div>
                   </div>
               )}
-              <div class="py-4">
-                <div class="w-full border-t border-gray-300"></div>
+              <div className="py-4">
+                <div className="w-full border-t border-gray-300"></div>
               </div>
                   {recommends && (
                 <div className='w-full'>
@@ -318,7 +318,7 @@ function Movie({match}) {
                   <div className='row__inner'>
                 {recommends.map(recommend => (
                   <Link to={{pathname:`/movie/${recommend.id}`}} key={recommend.id}>
-                  <div className={"tile"} key={recommend.id}>
+                  <div className={"tile"}>
                   <div className="tile__media">
                   <img className={"tile__img "} 
                   key={recommend.id} 

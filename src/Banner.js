@@ -4,7 +4,8 @@ import requests from './requests'
 import './Banner.css'
 import Modal from "@material-tailwind/react/Modal";
 import ModalHeader from "@material-tailwind/react/ModalHeader";
-import ModalBody from "@material-tailwind/react/ModalBody";
+import ModalBody from "@material-tailwind/react/ModalBody"
+import YouTube from 'react-youtube';
 
 const base_url="https://image.tmdb.org/t/p/original/" 
 function Banner() {
@@ -27,10 +28,10 @@ function Banner() {
     
     const handleClick = (movie) => {
       
-        if (trailerUrl) {
+        if (!trailerUrl) {
           setTrailerUrl("");
         } else {
-          movieTrailer(movie?.title || movie?.name || movie?.original_name || "")
+          setMovie(movie?.title || movie?.name || movie?.original_name || "")
           .then((url) => {
             const urlParams = new URLSearchParams(new URL(url).search);
             setTrailerUrl(urlParams.get("v"));
@@ -86,7 +87,7 @@ function Banner() {
              </div>
              <div className="banner--fadebottom"/>
              <Modal id="modal-root" className='flex flex-row justify-center items-center z-25' size="lg" active={showModal} toggler={() => setShowModal(false)}>
-               <ModalHeader toggler={() => setShowModal(false)}>
+               <ModalHeader children={() => null} toggler={() => setShowModal(false)}>
                {movie?.title || movie?.name || movie?.original_name}
                </ModalHeader>
                <ModalBody>

@@ -20,16 +20,15 @@ function Nav() {
     const handleClose = () => {
         setAnchorEl(null);
         };
-    useEffect(() => {
-        window.addEventListener("scroll",() =>{
-            if(window.scrollY>100){
-                handleShow(true);
-            } else handleShow(false);
-        });
-        return() => {
-            window.removeEventListener("scroll");
-        }
-    },[]);
+
+    // useEffect(() => {
+    //     window.addEventListener("scroll",() => {
+    //         if(window.scrollY>100){
+    //             handleShow(true);
+    //         }
+    //     });
+    //         window.removeEventListener("scroll",null);
+    // },[window]);
 
     
 
@@ -80,7 +79,7 @@ function Nav() {
             }
 
             {user && show  ? 
-              <div className={` items-center ${show && "nav__black"}`}>
+              <div className={`${show && "nav__black"}`}>
               <Search/>
               </div> :
             null }
@@ -121,7 +120,7 @@ function Nav() {
       :
       <Link to='/login'>
       <button
-      className={`${user && user__logo}flex float-right flex-row text-center items-end bg-red-600 p-3 text-white rounded-lg justify-end text-white"`}>
+      className="flex float-right flex-row text-center items-end bg-red-600 p-3 text-white rounded-lg justify-end text-white">
       Sign In
     </button>
     </Link>

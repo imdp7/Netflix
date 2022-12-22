@@ -16,7 +16,7 @@ function Person({match}) {
 
     useEffect(() => {
         document.title =`${person?.name} | Profile`;
-      },[person],6000);
+      },[person]);
 
 
       useEffect(() => {
@@ -61,7 +61,7 @@ function Person({match}) {
             {person?.name}
         </span>
             )}
-        <div class="py-4">
+        <div className="py-4">
                   <span className={`text-xl ${person?.popularity < 50 ? "text-red-500" : "text-green-500"}`}>
                       Popularity: {person?.popularity}
                   </span>
@@ -115,7 +115,7 @@ function Person({match}) {
                 </span>
             </div>
             {person?.also_known_as?.map(per => (
-                <ul className='text-xl list-disc items-center flex flex-wrap'>{per}</ul>
+                <ul className='text-xl list-disc items-center flex flex-wrap' key={per}>{per}</ul>
             ))}
         </div>
             )}
@@ -135,11 +135,11 @@ function Person({match}) {
                   </div>
                   <div className='row__inner'>
                 {tv.map(t => (
-                  <Link to={{pathname:`/tvshows/${t.id}`}} key={t.id}>
-                  <div className={"tile"} key={t.id}>
+                  <Link to={{pathname:`/tvshows/${t.id}`}} key={t.id | t}>
+                  <div className={"tile"}>
                   <div className="tile__media">
                   <img className={"tile__img "} 
-                  key={t.id} 
+                  key={t.poster_path} 
                   src={`${base_url}${t.poster_path}`} 
                   alt={t.name}
                   />    

@@ -16,7 +16,6 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 export const auth = firebase.auth();
 export const provider = new firebase.auth.GoogleAuthProvider();
 const db = firebaseApp.firestore({ experimentalForceLongPolling: true });
@@ -37,7 +36,6 @@ export const signInWithGoogle = async () => {
         email: user.email,
       });
     }
-    history.push('/home')
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -93,10 +91,10 @@ export const sendPasswordResetEmail = async (email) => {
 export const logout = () => {
   auth.signOut()
   .then((response) => {
-    history.push("/")
+    console.log(response.status)
   })
   .catch(error => {
-    toast.error("Error Logging out", error);
+    alert.message("Error Logging out", error);
   });
 };
 

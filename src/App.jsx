@@ -67,7 +67,7 @@ function App() {
     <UserProvider>
     <Router> 
     <div className="App">
-      <Nav/>
+      <Nav />
         {user ?
       <div className="app__body">
           <Switch>

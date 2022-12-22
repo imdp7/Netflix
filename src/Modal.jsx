@@ -20,8 +20,8 @@ const style = {
 
 export default function Modal() {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  function handleOpen (){ setOpen(true);}
+  function handleClose(){ setOpen(false);}
 
   return (
     <div>
