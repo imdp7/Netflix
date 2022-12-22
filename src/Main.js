@@ -7,7 +7,7 @@ function Main() {
 
   useEffect(() => {
     document.title = `Netflix | Watch Favourite Movie`;
-  },[],6000);
+  },[]);
 
   return (
     <div>

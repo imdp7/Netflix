@@ -5,7 +5,6 @@ import {BrowserRouter as Router,Switch,Route} from 'react-router-dom'
 import Main from './Main'
 import Login from './User/Login'
 import Home from './Home';
-import {UserProvider,UserContext} from './Providers/UserContext'
 import Register from './User/Register';
 import Routes from './Routes';
 import Movie from './Movie';
@@ -37,16 +36,16 @@ const routes = [
     component: Home,
     exact: true
   },
-  {
-    path: "/login",
-    component: Login,
-    exact: true
-  },
-  {
-    path: "/register",
-    component: Register,
-    exact: true
-  },
+  // {
+  //   path: "/login",
+  //   component: Login,
+  //   exact: true
+  // },
+  // {
+  //   path: "/register",
+  //   component: Register,
+  //   exact: true
+  // },
   {
     path: "/account",
     component: Account,
@@ -61,14 +60,16 @@ const routes = [
 
 
 function App() {
-  const { user } = useContext(UserContext);
   
   return (
-    <UserProvider>
     <Router> 
     <div className="App">
+<<<<<<< HEAD:src/App.jsx
       <Nav />
         {user ?
+=======
+      <Nav/>
+>>>>>>> 9d5f8c73f212634a88064620c17125365c5665aa:src/App.js
       <div className="app__body">
           <Switch>
           {routes.map((route, i) => (
@@ -76,10 +77,8 @@ function App() {
             ))}
       </Switch>
     </div>
-      : <Routes/> }
     </div>
     </Router> 
-    </UserProvider>
   );
 }
 
