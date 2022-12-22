@@ -12,9 +12,7 @@ import ModalBody from "@material-tailwind/react/ModalBody";
 import WatchProvider from './WatchProvider';
 
 
-function truncate(str,n){
-    return str?.length > n ? str.substr(0, n-1) + "...": str;
-} 
+
 
 function Movie({match}) {
     const base_url="https://image.tmdb.org/t/p/original/"
@@ -27,8 +25,8 @@ function Movie({match}) {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        document.title =`${movie?.title || movie?.name || movie?.original_name}`;
-      },[movie],6000);
+        document.title = "Netflix";
+      },[]);
 
       useEffect(() => {
         async function fetchData() {
@@ -80,7 +78,9 @@ function Movie({match}) {
       height: 390,
       width: 840,
     };
-
+    function truncate(str,n){
+      return str?.length > n ? str.substr(0, n-1) + "...": str;
+  } 
     const handleClick = (movie) => {
       
       if (trailerUrl) {
@@ -151,7 +151,7 @@ function Movie({match}) {
             <div class="w-full border-t border-white"></div>
             </div> 
              <div className='flex flex-row p-2 pb-4 bg-black flex-wrap'>
-                <div className='flex flex-col itmes-center text-white m-2 max-w-4xl w-2xl'>
+                <div className='flex flex-col items-center text-white m-2 max-w-4xl w-2xl'>
              {movie?.release_date &&(
                 <div className='p-2 flex flex-row'>
                   <span className='font-bold text-lg'>

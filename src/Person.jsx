@@ -14,9 +14,7 @@ function Person({match}) {
     const [movies,setMovies] = useState([])
     const [tv,setTv] = useState([])
 
-    useEffect(() => {
-        document.title =`${person?.name} | Profile`;
-      },[person],6000);
+ 
 
 
       useEffect(() => {
@@ -46,7 +44,12 @@ function Person({match}) {
         }
         fetchData();
     },[match.params.id,API_KEY]);
-
+   useEffect(() => {
+        setTimeout(() => {
+            document.title ="Profile";
+        }
+        ,1000);
+      },[person]);
 
   return (
     <div className='max-w-full bg-black'>
@@ -131,7 +134,7 @@ function Person({match}) {
         {tv && (
                 <div className='flex flex-wrap w-full'>
                     <div>
-                  <span className='font-extrabold text-white text-2xl'>TV shows by {person.name}</span>
+                  <span className='font-extrabold text-white text-2xl'>TV shows by {person?.name}</span>
                   </div>
                   <div className='row__inner'>
                 {tv.map(t => (
@@ -139,7 +142,6 @@ function Person({match}) {
                   <div className={"tile"} key={t.id}>
                   <div className="tile__media">
                   <img className={"tile__img "} 
-                  key={t.id} 
                   src={`${base_url}${t.poster_path}`} 
                   alt={t.name}
                   />    
@@ -164,7 +166,6 @@ function Person({match}) {
                   <div className={"tile"} key={movie.id}>
                   <div className="tile__media">
                   <img className={"tile__img "} 
-                  key={movies.id} 
                   src={`${base_url}${movie.poster_path}`} 
                   alt={movie.name}
                   />    

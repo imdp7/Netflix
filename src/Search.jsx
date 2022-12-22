@@ -44,7 +44,7 @@ export default function Search() {
 
   useEffect(() => {
     async function fetchData() {
-        const options = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${options}&page=1&include_adult=false`);
+        const request = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${options}&page=1&include_adult=false`);
         setOptions(request.data.results);
         console.log(options)
         return request;
