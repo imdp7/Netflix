@@ -151,7 +151,7 @@ function Movie({match}) {
             <div className="w-full border-t border-white"></div>
             </div> 
              <div className='flex flex-row p-2 pb-4 bg-black flex-wrap'>
-                <div className='flex flex-col items-center text-white m-2 max-w-4xl w-2xl'>
+                <div className='flex flex-col p-2 text-white m-2 max-w-4xl w-2xl'>
              {movie?.release_date &&(
                 <div className='p-2 flex flex-row'>
                   <span className='font-bold text-lg'>

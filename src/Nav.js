@@ -3,9 +3,12 @@ import './Nav.css'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, Redirect,useHistory } from 'react-router-dom';
+import {UserContext} from './Providers/UserContext'
+import {auth} from './firebase'
 import Search from './Search'
 
 function Nav() {
+    const { user } = useContext(UserContext);
     const history = useHistory();
 
     const [show,handleShow] = useState(false);
@@ -25,18 +28,25 @@ function Nav() {
     //         }
     //     });
     //         window.removeEventListener("scroll",null);
-    // },[window]);
+    // },[]);
 
     
 
     async function logout() {
-      console.log("signout")
+      await auth.signOut()
+      .then(() => {
+        setAnchorEl(null);
+       history.push("/")
+      })
+      .catch(error => {
+        error("Cannot Logut", error);
+      });
     }
 
     return (
         <div className={`nav items-center ${show && "nav__black "}`}>
 
-
+            {user ? 
                <Link to={'/home'}>
             <div className='items-center'>
             <img
@@ -46,7 +56,7 @@ function Nav() {
               />
               </div>
               </Link>
-
+              : 
               <Link to={'/'}>
               <div className='items-center'>
             <img
@@ -56,25 +66,24 @@ function Nav() {
               />
               </div>
               </Link>
-            
-            
+            }
+            {
+              user && show &&(
 
             <div className={`flex flex-row gap-5 text-black font-bold text-lg font-serif space-x-5 ${show && "text-white"}`}>
               <Link to="/tvshows"><p>TV shows</p></Link>
               <Link to="/home"><p>Movies</p></Link>
               <Link to="/browse"><p>Browse</p></Link>
             </div>
+              )
+            }
 
-<<<<<<< HEAD
             {user && show  ? 
               <div className={`${show && "nav__black"}`}>
-=======
-
-              <div className={` items-center ${show && "nav__black"}`}>
->>>>>>> 9d5f8c73f212634a88064620c17125365c5665aa
               <Search/>
-              </div> 
-
+              </div> :
+            null }
+              {user ? 
               <div className='items-center'>
               <img 
               className="user__logo"
@@ -95,28 +104,27 @@ function Nav() {
           'aria-labelledby': 'basic-button',
         }}
       >
-
+        {!user ?
        <Link to='/login'> <MenuItem onClick={handleClose}>Login</MenuItem></Link>
-
+       : null}
+        {user ?
         <Link to='/account'>
-        <MenuItem onClick={handleClose}>Hey</MenuItem>
+        <MenuItem onClick={handleClose}>{user.displayName || user.email || user.FirstName}</MenuItem>
         </Link>
-
+        : null }
+         {user ?
         <MenuItem onClick={logout}>Logout</MenuItem>
+          :null}
       </Menu>
         </div>
-    
+      :
       <Link to='/login'>
       <button
-<<<<<<< HEAD
       className="flex float-right flex-row text-center items-end bg-red-600 p-3 text-white rounded-lg justify-end text-white">
-=======
-      className="user__logo  flex float-right flex-row text-center items-end bg-red-600 p-3 text-white rounded-lg justify-end text-white">
->>>>>>> 9d5f8c73f212634a88064620c17125365c5665aa
       Sign In
     </button>
     </Link>
-    
+      }
 
         </div>
     )

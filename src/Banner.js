@@ -26,9 +26,8 @@ function Banner() {
         fetchData();
     },[]);
     
-    // const handleClick = (movie) => {
+    const handleClick = (movie) => {
       
-<<<<<<< HEAD:src/Banner.js
         if (!trailerUrl) {
           setTrailerUrl("");
         } else {
@@ -41,29 +40,15 @@ function Banner() {
               .catch((error) => console.log(error));
           }
         };
-=======
-    //     if (trailerUrl) {
-    //       setTrailerUrl("");
-    //     } else {
-    //       movieTrailer(movie?.title || movie?.name || movie?.original_name || "")
-    //       .then((url) => {
-    //         const urlParams = new URLSearchParams(new URL(url).search);
-    //         setTrailerUrl(urlParams.get("v"));
-    //         setShowModal(true)
-    //           })
-    //           .catch((error) => console.log(error));
-    //       }
-    //     };
->>>>>>> 9d5f8c73f212634a88064620c17125365c5665aa:src/Banner.jsx
 
-    //     const opts = {
-    //         height: '390',
-    //         width: '840',
-    //           playerVars: {
-    //               autoplay: 1,
+        const opts = {
+            height: '390',
+            width: '840',
+              playerVars: {
+                  autoplay: 1,
       
-    //           },
-    //       };
+              },
+          };
 
     function truncate(str,n){
         return str?.length > n ? str.substr(0, n-1) + "...": str;
@@ -94,7 +79,7 @@ function Banner() {
                  {movie?.title || movie?.name || movie?.original_name}
                 </h1>
                 <div className="flex">
-                <button className="banner__button" >Play</button>
+                <button className="banner__button" onClick={() => handleClick(movie)}>Play</button>
                 <button className="banner__button">My List</button>
                 <button className={`text-white py-3 text-lg font-bold font-sans rounded-lg px-4 hover:bg-gray-300 hover:text-black ${movie?.vote_average < 7 ? "bg-red-500" : "bg-green-500"}`}>{movie?.vote_average} stars</button> 
                 </div>
@@ -102,13 +87,13 @@ function Banner() {
              </div>
              <div className="banner--fadebottom"/>
              <Modal id="modal-root" className='flex flex-row justify-center items-center z-25' size="lg" active={showModal} toggler={() => setShowModal(false)}>
-               <ModalHeader children={() => null} toggler={() => setShowModal(false)}>
+               <ModalHeader children={"null"} toggler={() => setShowModal(false)}>
                {movie?.title || movie?.name || movie?.original_name}
                </ModalHeader>
                <ModalBody>
-               {/* <div>       
+               <div>       
                {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
-                   </div> */}
+                   </div>
                </ModalBody>
            </Modal>
         </header>
