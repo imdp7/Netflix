@@ -1,6 +1,6 @@
 {
   "name": "netflix",
-  "version": "10.1.2",
+  "version": "10.2.2",
   "private": true,
   "dependencies": {
     "@craco/craco": "^5.9.0",
