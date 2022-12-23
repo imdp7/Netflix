@@ -1,13 +1,13 @@
 import React,{useContext} from 'react';
 import './App.css';
 import Nav from './Nav';
-import {BrowserRouter as Router,Switch,Route} from 'react-router-dom'
+import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 import Main from './Main'
 import Login from './User/Login'
 import {UserProvider,UserContext} from './Providers/UserContext'
 import Home from './Home';
 import Register from './User/Register';
-import Routes from './Routes';
+import Routing from './Routing';
 import Movie from './Movie';
 import Account from './User/Account';
 import Tvshows from './Tvshows';
@@ -71,13 +71,13 @@ function App() {
       <Nav />
         {user ?
       <div className="app__body">
-          <Switch>
+          <Routes>
           {routes.map((route, i) => (
             <RouteWithSubRoutes key={i} {...route} />
             ))}
-      </Switch>
+      </Routes>
     </div>
-    : <Routes /> }
+    : <Routing /> }
     </div>
     </Router> 
     </UserProvider>

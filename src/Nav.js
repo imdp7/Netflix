@@ -2,14 +2,14 @@ import React,{useState,useEffect,useContext} from 'react'
 import './Nav.css'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { Link, Redirect,useHistory } from 'react-router-dom';
+import { Link, Redirect,useNavigate } from 'react-router-dom';
 import {UserContext} from './Providers/UserContext'
 import {auth} from './firebase'
 import Search from './Search'
 
 function Nav() {
     const { user } = useContext(UserContext);
-    const history = useHistory();
+    const history = useNavigate();
 
     const [show,handleShow] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,7 +36,7 @@ function Nav() {
       await auth.signOut()
       .then(() => {
         setAnchorEl(null);
-       history.push("/")
+       history("/")
       })
       .catch(error => {
         error("Cannot Logut", error);
