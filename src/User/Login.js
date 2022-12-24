@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,redirect } from "react-router-dom";
 import {auth,provider,db} from '../firebase'
 import hero from '../assets/hero.jpeg'
 import TextField from '@mui/material/TextField';
@@ -28,7 +28,7 @@ function Login() {
         .then((response) => {
           setEmail(email)
           setPassword(password)
-          history('/home')
+          redirect('/home')
         })
         .catch(error => {
           setError("Error Signing in, Incorrect Email or password !!",error)
@@ -53,7 +53,7 @@ function Login() {
               email: user.email,
             });
           }
-          history('/home')
+         return redirect('/home')
         } catch (err) {
           console.error(err);
           alert(err.message);
@@ -62,7 +62,7 @@ function Login() {
 
       useEffect(() => {
         document.title = `Sign In | Netflix`;
-      },[],6000);
+      },[]);
 
   return (
     <div className='flex'>

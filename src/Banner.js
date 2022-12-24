@@ -14,7 +14,7 @@ import YouTube from 'react-youtube';
 const base_url="https://image.tmdb.org/t/p/original/" 
 function Banner() {
     const [movie,setMovie] = useState([]);
-    const [trailerUrl, setTrailerUrl]= useState("");
+    const [trailerUrl, setTrailerUrl]= useState(null);
     const [showModal, setShowModal] = useState(false);
     const [open, setOpen] = useState(false);
 

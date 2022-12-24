@@ -3,9 +3,8 @@ import {API_KEY} from './requests'
 import axios from 'axios'
 import YouTube from 'react-youtube';
 import movieTrailer from 'movie-trailer'
-import CurrencyFormat from 'react-currency-format';
 import './row.css'
-import { Link } from 'react-router-dom';
+import { Link,useParams } from 'react-router-dom';
 import {
   Button,
   Dialog,
@@ -18,7 +17,8 @@ import WatchProvider from './WatchProvider';
 
 
 
-function Movie({match}) {
+function Movie() {
+    const { id } = useParams();
     const base_url="https://image.tmdb.org/t/p/original/"
     const [movie,setMovie] = useState([])
     const [trailer,setTrailer] = useState([]);
@@ -30,52 +30,53 @@ function Movie({match}) {
 
     useEffect(() => {
         document.title =`${movie?.title || movie?.name || movie?.original_name}`;
-      },[movie],6000);
+      },[movie]);
 
       useEffect(() => {
         async function fetchData() {
-            const request = await axios.get(`https://api.themoviedb.org/3/movie/${match.params.id}?api_key=${API_KEY}`);
+            const request = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`);
             setMovie(request.data);
             return request;
         }
+        console.log(movie)
         fetchData();
-    },[match.params.id,API_KEY]);
+    },[id,API_KEY]);
 
       useEffect(() => {
         async function fetchData() {
-            const request = await axios.get(`https://api.themoviedb.org/3/movie/${match.params.id}/videos?api_key=${API_KEY}&language=en-US`);
+            const request = await axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`);
             setTrailer(request.data.results);
             return request;
         }
         fetchData();
-    },[match.params.id,API_KEY]);
+    },[id,API_KEY]);
 
       useEffect(() => {
         async function fetchData() {
-            const request = await axios.get(`https://api.themoviedb.org/3/movie/${match.params.id}/recommendations?api_key=${API_KEY}&page=1`);
+            const request = await axios.get(`https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${API_KEY}&page=1`);
             setRecommends(request.data.results);
             return request;
         }
         fetchData();
-    },[match.params.id,API_KEY]);
+    },[id,API_KEY]);
     
       useEffect(() => {
         async function fetchData() {
-            const request = await axios.get(`https://api.themoviedb.org/3/movie/${match.params.id}/credits?api_key=${API_KEY}&language=en-US`);
+            const request = await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}&language=en-US`);
             setCredits(request.data.cast);
             return request;
           }
           fetchData();
-        },[match.params.id,API_KEY]);
+        },[id,API_KEY]);
 
       useEffect(() => {
         async function fetchData() {
-            const request = await axios.get(`https://api.themoviedb.org/3/movie/${match.params.id}/watch/providers?api_key=${API_KEY}`);
+            const request = await axios.get(`https://api.themoviedb.org/3/movie/${id}/watch/providers?api_key=${API_KEY}`);
             setProviders(request.data.results);
             return request;
           }
           fetchData();
-        },[match.params.id,API_KEY]);
+        },[id,API_KEY]);
 
 
     const opts = {
@@ -99,6 +100,15 @@ function Movie({match}) {
             .catch((error) => console.log(error));
         }
       };
+
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      
+        // These options are needed to round to whole numbers if that's what you want.
+        //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+        //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+      });
 
   return (
  
@@ -155,7 +165,19 @@ function Movie({match}) {
             <div class="w-full border-t border-white"></div>
             </div> 
              <div className='flex flex-row p-2 pb-4 bg-black flex-wrap'>
+              
                 <div className='flex flex-col itmes-center text-white m-2 max-w-4xl w-2xl'>
+
+                {movie?.adult ?? (
+                <div className='p-2 flex flex-row'>
+                  <span className='font-bold text-lg'>
+                    Adult : &nbsp;
+                  </span>
+                <span className='font-semibold text-lg'>
+                {' '}{movie.adult}
+                </span>
+                </div>
+                )}
              {movie?.release_date &&(
                 <div className='p-2 flex flex-row'>
                   <span className='font-bold text-lg'>
@@ -181,9 +203,14 @@ function Movie({match}) {
                   <span className='font-bold text-lg'>
                     Genre : &nbsp;
                   </span>
-                <span className='font-semibold text-lg'>
-                {' '}{movie.genres[0].name}
-                </span>
+                  {movie.genres.map(gen => (
+                    <div key={gen.id} className="pl-2 pr-2">
+                    <span className='font-semibold text-lg' >
+                      {gen.name}
+                    </span>
+                    </div>
+                  ))}
+                
                 </div>
                 )}
                 {movie.vote_count && (
@@ -191,7 +218,7 @@ function Movie({match}) {
                 <span className='font-bold text-lg'>
                     Vote : &nbsp;
                   </span>
-                <span className='font-semibold text-lg'>{movie.vote_count} votes</span>
+                <span className='font-semibold text-lg'>{movie.vote_count.toLocaleString("en-US")} votes</span>
                 </div>
                 )}
                 {movie.status && (
@@ -202,13 +229,12 @@ function Movie({match}) {
                 <span className={`font-semibold text-lg ${movie.status =="Released" ? "text-green-500" : "text-red-500"}`}>{movie.status}</span> 
                 </div>
                 )}
-                {movie?.budget && (
+                {movie?.budget !== 0 && (
                 <div className='p-2 flex flex-row'>
                 <span className='font-bold text-lg'>
                     Budget : &nbsp;
                   </span>
-                <span className="font-semibold text-lg"><CurrencyFormat value={movie?.budget} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => <div>{value}</div>} />
-                </span> 
+                <span className="font-semibold text-lg">{formatter.format(movie.budget)} </span> 
                 </div>
                 )}
                 {movie.overview && (

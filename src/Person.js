@@ -1,14 +1,14 @@
 import React,{useState,useEffect} from 'react'
 import {API_KEY} from './requests'
 import axios from 'axios'
-import {Link} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import CakeIcon from '@mui/icons-material/Cake';
 import PersonIcon from '@mui/icons-material/Person';
 import PlaceIcon from '@mui/icons-material/Place';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
-function Person({match}) {
-
+function Person() {
+    const { id } = useParams();
     const base_url="https://image.tmdb.org/t/p/original/"
     const [person,setPerson] = useState([])
     const [movies,setMovies] = useState([])
@@ -21,31 +21,31 @@ function Person({match}) {
 
       useEffect(() => {
         async function fetchData() {
-            const request = await axios.get(`https://api.themoviedb.org/3/person/${match.params.id}/movie_credits?api_key=${API_KEY}`);
+            const request = await axios.get(`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${API_KEY}`);
             setMovies(request.data.cast);
             return request;
         }
         fetchData();
-    },[match.params.id,API_KEY]);
+    },[id,API_KEY]);
 
 
       useEffect(() => {
         async function fetchData() {
-            const request = await axios.get(`https://api.themoviedb.org/3/person/${match.params.id}?api_key=${API_KEY}&language=en-US`);
+            const request = await axios.get(`https://api.themoviedb.org/3/person/${id}?api_key=${API_KEY}&language=en-US`);
             setPerson(request.data);
             return request;
         }
         fetchData();
-    },[match.params.id,API_KEY]);
+    },[id,API_KEY]);
 
       useEffect(() => {
         async function fetchData() {
-            const request = await axios.get(`https://api.themoviedb.org/3/person/${match.params.id}/tv_credits?api_key=${API_KEY}&language=en-US`);
+            const request = await axios.get(`https://api.themoviedb.org/3/person/${id}/tv_credits?api_key=${API_KEY}&language=en-US`);
             setTv(request.data.cast);
             return request;
         }
         fetchData();
-    },[match.params.id,API_KEY]);
+    },[id,API_KEY]);
 
 
   return (
